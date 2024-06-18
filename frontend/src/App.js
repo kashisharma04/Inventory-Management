@@ -1,32 +1,61 @@
+// import React, { useState } from 'react';
+// import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+// import Dashboard from './Dashboard/Dashboard';
+// import Login from './Admin/Login';
+// import Register from './Admin/Register';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+
+// const App = () => {
+//   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+
+//   const handleLogin = () => {
+//     setIsAuthenticated(true);
+//   };
+
+//   return (
+//     <Router>
+//       <Routes>
+//         <Route path="/register" element={<Register />} />
+//         <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login onLogin={handleLogin} />} />
+//         <Route path="/" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
+//       </Routes>
+//     </Router>
+//   );
+// };
+
+// export default App;
+
 import React from 'react';
-import Admin from './Components/Admin';
-import User from './Components/User';
-import Product from './Components/Product';
+// import ReactDOM from 'react-dom';
+import { createBrowserHistory } from 'history';
+import Router from './Router';
+import NavBar from '../src/Dashboard/SideBar';
+// import Footer from './Footer';
+import {
+  isLoggedIn,
+  loginAnonymous,
+  loginWithKey,
+  logoutUser,
+} from ""
+import Login from "./Login"
 
-function App() {
-  const [selectedComponent, setSelectedComponent] = React.useState(null);
+export const history = createBrowserHistory();
 
-  const handleSelectComponent = (component) => {
-    setSelectedComponent(component);
-  };
-
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <nav>
-        <button onClick={() => handleSelectComponent('admin')}>Admin</button>
-        <button onClick={() => handleSelectComponent('user')}>User</button>
-        <button onClick={() => handleSelectComponent('product')}>Product</button>
-      </nav>
-      {selectedComponent === 'admin' && <Admin />}
-      {selectedComponent === 'user' && <User />}
-      {selectedComponent === 'product' && <Product />}
-      <h2>Categories</h2>
-      {/* Render your categories component here */}
-      <h2>Total Products: {/* Render your total products count here */}</h2>
-      <h2>Low Stock: {/* Render your low stock products here */}</h2>
-    </div>
-  );
+export default App = () => { 
+  {
+    return isLoggedIn() ? (
+      <>
+        <NavBar handleLogout={logoutUser} isLoggedIn={isLoggedIn} /><br />
+        <Router history={history} />
+        <Footer />
+      </>
+    ) : (
+      <>
+        <NavBar handleLogout={logoutUser} isLoggedIn={isLoggedIn} />
+        <br />
+        <Login loginAnonymous={loginAnonymous} loginWithKey={loginWithKey} />
+        <Footer />
+      </>
+    );
+  }
 }
-
-export default App;
