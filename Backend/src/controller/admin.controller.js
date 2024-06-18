@@ -8,7 +8,7 @@ const { JWT_SECRET} = process.env
 const createAdmin = async function (req, res) {
     try {
         let admin= req.body
-        const { name, email, password, createdAt, updatedAt} = admin;
+        const { name, email, password} = admin;
 
         //checking for required fields
         if (!name) { return res.status(400).send({ status: false, message: "user name is required" }) }
