@@ -28,6 +28,10 @@ const ProductSchema = new mongoose.Schema(
     expiryDate: {
       type: Date,
     },
+    MaximumStockLevel:{
+      type: Number,
+      required: true,
+    },
     adminId: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' }
   },
   {

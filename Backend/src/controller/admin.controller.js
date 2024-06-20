@@ -1,29 +1,35 @@
 const adminDetails = require('../model/admin.model')
 const jwt = require('jsonwebtoken')
-const { isValidEmail , isValidRequestBody  } = require('../validations/valid');
+const { isValidEmail , isValidRequestBody, isValidMobile } = require('../validations/valid');
 
 require('dotenv').config();
-const { JWT_SECRET} = process.env
+const { JWT_SECRET , JWT_Expiry} = process.env
 
 const createAdmin = async function (req, res) {
     try {
         let admin= req.body
-        const { name, email, password} = admin;
+        const { name, email, password , mobile , designation} = admin;
 
         //checking for required fields
-        if (!name) { return res.status(400).send({ status: false, message: "user name is required" }) }
+        if (!name) { return res.status(400).send({ status: false, message: "Name is required" }) }
 
-        if (!email) { return res.status(400).send({ status: false, message: "email is required" }) }
+        if (!email) { return res.status(400).send({ status: false, message: "Email is required" }) }
 
-        if (!password) { return res.status(400).send({ status: false, message: "password is required" }) }
+        if (!password) { return res.status(400).send({ status: false, message: "Password is required" }) }
+
+        if (!mobile) { return res.status(400).send({ status: false, message: "Mobile Number is required" }) }
+        
+        // if (!isValidMobile(email)) { return res.status(400).send({ status: false, message: "Invalid Mobile Number" }) }
+        // console.log(mobile);
+        // if (!designation) { return res.status(400).send({ status: false, message: "designation is required" }) }
 
         if (password.length < 6) return res.status(400).send({ status: false, message: "Password length should be greater than 6 characters" })
 
-        if (!isValidEmail(email)) { return res.status(400).send({ status: false, message: "Enter the valid email" }) }
+        if (!isValidEmail(email)) { return res.status(400).send({ status: false, message: "Invalid Email" }) }
 
         //checking for unique mail
         const uniqueMail = await adminDetails.findOne({ email: email });
-        if (uniqueMail) return res.status(400).send({ status: false, message: "this email already exist" });
+        if (uniqueMail) return res.status(400).send({ status: false, message: "Email already exists" });
         
         let adminCreated = await adminDetails.create(admin)
         return res.status(201).send({ status: true, msg:"Admin Created Successfully", data: adminCreated })
@@ -59,9 +65,9 @@ const getAdminById = async (req, res) => {
 
 //===============Login-User==========================
 
-const generateToken = (admin) => {
-    return jwt.sign({ admin_id: admin._id }, JWT_SECRET, JWT_Expiry);
-};
+// const generateToken = (admin) => {
+//     return jwt.sign({ admin_id: admin._id }, JWT_SECRET, JWT_Expiry);
+// };
 
 const login = async (req, res) => {
     try {
@@ -77,22 +83,22 @@ const login = async (req, res) => {
             password
         } = req.body
 
-        if (!isValidEmail(email)) {
-            res.status(400).json({
-                status: false,
-                message: "Email is required"
-            })
-        }
+        // if (!email){
+        //     res.status(400).json({
+        //         status: false,
+        //         message: "Email is required"
+        //     })
+        // }
 
-        if (!(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email))) {
+        if (!isValidEmail(email)){
             res.status(400).json({
                 status: false,
-                message: "Email should be valid email."
+                message: "Invalid Email"
             })
         }
 
         if (!email || !password) return res.status(400).json({
-            message: "Please enter email and password"
+            message: "Please enter both email and password"
         })
 
         const user = await adminDetails.findOne({
@@ -109,7 +115,7 @@ const login = async (req, res) => {
         if (password) {
             const token = jwt.sign({
                 user_id: user._id,
-            }, JWT_SECRET)
+            }, JWT_SECRET, {expiresIn : JWT_Expiry})
             // const token = generateToken(admin)
 
             res.header('x-header-key', token)
