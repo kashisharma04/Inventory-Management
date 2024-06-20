@@ -17,11 +17,12 @@ const adminSchema = new mongoose.Schema(
         type: String,
         required: true
       },
-    //   role: {
-    //     type: String,
-    //     default: "admin",
-    //     enum: ["admin", "superadmin"]
-    //   },
+      mobile : {
+        type : Number
+      },
+      designation :{
+        type : String,
+      },
     },
     {
       timestamps: true

@@ -37,10 +37,15 @@ const usertrackSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    returnDate : {
-      type : Date,
+    returnDate: {
+      type: Date,
       default: getTomorrowDate,
-    }
+    },
+    status: {
+      type: String,
+      enum : ["inactive", "active", "pending", "returned"],
+      default: "active",
+    },
   },
   {
     timestamps: true,
