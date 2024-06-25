@@ -8,20 +8,20 @@ const {createUser,getUser,updateUser,deleteUser} = require('../controller/user.c
 
 
 //ADMIN
-router.post('/admin/register', createAdmin);    //middleware
+router.post('/admin/register', createAdmin);    
 router.post('/admin/login', login);
 router.get('/admin', getAdmin);
-router.put('/admin/:id', authentication,updateAdmin);
-router.delete('/admin/:id',authentication, deleteAdmin);
+router.put('/admin/:id', authentication,authorization, updateAdmin); //middleware
+router.delete('/admin/:id',authentication,authorization,  deleteAdmin); 
 
 //USER
 router.post('/user' ,authentication, createUser );   //middleware
-router.get('/user' ,authentication, getUser );
-router.put('/user/:id' , authentication,updateUser );
-router.delete('/user/:id' ,authentication, deleteUser );
+router.get('/user' , getUser );
+router.put('/user/:id' , authentication,authorization, updateUser );
+router.delete('/user/:id' ,authentication,authorization, deleteUser );
 
 //STORAGE
-router.post('/storage',authentication, upload.single('image'), createProduct);    //middleware
+router.post('/storage',authentication,upload, createProduct);    //middleware
 router.get('/storage' , getProducts );
 router.get('/storage/:id' , getProductById );
 router.put('/storage/:id' , authentication, authorization,updateProduct );

@@ -2,7 +2,6 @@ const Product = require("../model/product.model");
 const multer = require("multer");
 const path = require("path");
 
-// Set up Multer storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
@@ -12,55 +11,77 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage }).single("image");
 
 // Create a new product
 const createProduct = async (req, res) => {
   try {
-    const productData = req.body;
-    const {
-      productName,
-      category,
-      description,
-      image,
-      quantity,
-      price,
-      addedAt,
-      expiryDate,
-      updatedAt,
-      adminId
-    } = productData;
+    upload(req, res, async (err) => {
+      if (err instanceof multer.MulterError) {
+        return res.status(400).send({ status: false, message: "File upload error" });
+      } else if (err) {
+        return res.status(500).send({ status: false, message: "Internal server error" });
+      }
 
-    // Validation checks
-    if (!productName)
-      return res
-        .status(400)
-        .send({ status: false, message: "Product name is required" });
-    // if (!category) return res.status(400).send({ status: false, message: "Category is required" });
-    if (!description)
-      return res
-        .status(400)
-        .send({ status: false, message: "Description is required" });
-    // if (!quantity) return res.status(400).send({ status: false, message: "Quantity is required" });
-    // if (quantity < 1) return res.status(400).send({ status: false, message: "Quantity must be at least 1" });
-    if (!price)
-      return res
-        .status(400)
-        .send({ status: false, message: "Price is required" });
+      try {
+        const {
+          productName,
+          category,
+          description,
+          quantity,
+          price,
+          purchaseDate,
+          warrantyCheck,
+          minimumStockLevel,
+        } = req.body;
 
-    // Create the product
-    const newProduct = await Product.create(productData);
-    return res
-      .status(201)
-      .send({
-        status: true,
-        message: "Product created successfully",
-        data: newProduct,
-      });
+        let image = "";
+        if (req.file) {
+          image = req.file.filename;
+        }
+        
+        // Validation checks
+        if (!productName) {
+          return res.status(400).send({ status: false, message: "Product name is required" });
+        }
+        if (!description) {
+          return res.status(400).send({ status: false, message: "Description is required" });
+        }
+        if (!price) {
+          return res.status(400).send({ status: false, message: "Price is required" });
+        }
+        if (!quantity) {
+          return res.status(400).send({ status: false, message: "Please add quantity" });
+        }
+
+        // Create the product
+        const newProduct = await Product.create({
+          productName,
+          category,
+          description,
+          image,
+          quantity,
+          price,
+          purchaseDate,
+          warrantyCheck,
+          minimumStockLevel,
+          // adminId: req.adminId, // Assuming adminId is available in req
+        });
+
+        return res.status(201).send({
+          status: true,
+          message: "Product created successfully",
+          data: newProduct,
+        });
+      } catch (err) {
+        return res.status(500).send({ status: false, message: err.message });
+      }
+    });
   } catch (err) {
     return res.status(500).send({ status: false, message: err.message });
   }
 };
+
 
 //================/GET METHOD/==================================
 const getProducts = async (req, res) => {
@@ -94,8 +115,8 @@ const updateProduct = async (req, res) => {
     const productId = req.params.id;
     const updateData = { ...req.body, updatedAt: Date.now() };
     const pro = await Product.findById(productId);
-    if(!pro){
-        return res
+    if (!pro) {
+      return res
         .status(404)
         .send({ status: false, message: "Product not found in database" });
     }
@@ -108,13 +129,11 @@ const updateProduct = async (req, res) => {
       return res
         .status(404)
         .send({ status: false, message: "Product not found" });
-    return res
-      .status(200)
-      .send({
-        status: true,
-        message: "Product updated successfully",
-        data: updatedProduct,
-      });
+    return res.status(200).send({
+      status: true,
+      message: "Product updated successfully",
+      data: updatedProduct,
+    });
   } catch (err) {
     return res.status(500).send({ status: false, message: err.message });
   }
@@ -130,13 +149,11 @@ const deleteProduct = async (req, res) => {
       return res
         .status(404)
         .send({ status: false, message: "Product not found in database" });
-    return res
-      .status(200)
-      .send({
-        status: true,
-        message: "Product deleted successfully",
-        // data: deletedProduct,
-      });
+    return res.status(200).send({
+      status: true,
+      message: "Product deleted successfully",
+      // data: deletedProduct,
+    });
   } catch (err) {
     return res.status(500).send({ status: false, message: err.message });
   }

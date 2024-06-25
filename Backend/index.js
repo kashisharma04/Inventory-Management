@@ -1,6 +1,14 @@
 const express = require('express');
 const app = express();
 const route = require('./src/route/route')
+const cors = require('cors');
+app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    headers: ['Content-Type', 'Authorization'],
+  }));
+
 app.use(express.json());
 const mongoose = require('mongoose')
 

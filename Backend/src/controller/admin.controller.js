@@ -43,7 +43,7 @@ const createAdmin = async function (req, res) {
 
 const getAdmin = async function (req, res) {
     try {
-        const user = await adminModel.find()
+        const user = await adminDetails.find()
         res.status(200).send({ status: true, msg:"Admin Data", data: user });
     }
     catch (error) {
@@ -55,7 +55,7 @@ const getAdmin = async function (req, res) {
 const getAdminById = async (req, res) => {
     try {
         const userId = req.params.id;
-        const user = await adminModel.findById(userId);
+        const user = await adminDetails.findById(userId);
         if (!user) return res.status(404).send({ status: false, message: "Admin not found" });
         return res.status(200).send({ status: true, data: user });
     } catch (err) {

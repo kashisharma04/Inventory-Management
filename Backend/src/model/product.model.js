@@ -25,12 +25,15 @@ const ProductSchema = new mongoose.Schema(
     price: {
       type: String,
     },
-    expiryDate: {
+    purchaseDate: {
       type: Date,
     },
-    MaximumStockLevel:{
+    warrantyCheck : {
+      type : String
+    },
+    minimumStockLevel:{
       type: Number,
-      required: true,
+      // required: true,
     },
     adminId: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' }
   },
