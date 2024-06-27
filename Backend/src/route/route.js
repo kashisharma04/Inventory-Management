@@ -2,10 +2,16 @@ const express = require('express')
 const router = express.Router()
 
 const {createAdmin, login,updateAdmin , deleteAdmin,getAdminById,getAdmin} = require('../controller/admin.controller');
-const {createProduct,upload, updateProduct,getProducts,getProductById,deleteProduct} = require('../controller/product.controller');
+const {createProduct,updateProduct,getProducts,getProductById,deleteProduct} = require('../controller/product.controller');
 const {authentication , authorization} = require('../middleware/middleware')
 const {createUser,getUser,updateUser,deleteUser} = require('../controller/user.control')
 
+
+// const upload = multer({
+//       storage: multer.memoryStorage(), // Use memoryStorage for buffer
+//       limits: { fileSize: 1000000 }, // 1MB limit (optional)
+//   });
+  
 
 //ADMIN
 router.post('/admin/register', createAdmin);    
@@ -21,7 +27,7 @@ router.put('/user/:id' , authentication,authorization, updateUser );
 router.delete('/user/:id' ,authentication,authorization, deleteUser );
 
 //STORAGE
-router.post('/storage',authentication,upload, createProduct);    //middleware
+router.post('/storage',authentication,createProduct);    //middleware
 router.get('/storage' , getProducts );
 router.get('/storage/:id' , getProductById );
 router.put('/storage/:id' , authentication, authorization,updateProduct );

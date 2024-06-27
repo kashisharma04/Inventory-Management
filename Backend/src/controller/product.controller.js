@@ -1,87 +1,78 @@
 const Product = require("../model/product.model");
-const multer = require("multer");
-const path = require("path");
+const uploadFile = require('../superbase/superbase');
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-
-const upload = multer({ storage: storage }).single("image");
 
 // Create a new product
 const createProduct = async (req, res) => {
   try {
-    upload(req, res, async (err) => {
-      if (err instanceof multer.MulterError) {
-        return res.status(400).send({ status: false, message: "File upload error" });
-      } else if (err) {
-        return res.status(500).send({ status: false, message: "Internal server error" });
-      }
+    const {
+      productName,
+      category,
+      description,
+      quantity,
+      price,
+      purchaseDate,
+      warrantyCheck,
+      minimumStockLevel,
+    } = req.body;
 
-      try {
-        const {
-          productName,
-          category,
-          description,
-          quantity,
-          price,
-          purchaseDate,
-          warrantyCheck,
-          minimumStockLevel,
-        } = req.body;
+    const file = req.file;
 
-        let image = "";
-        if (req.file) {
-          image = req.file.filename;
-        }
-        
-        // Validation checks
-        if (!productName) {
-          return res.status(400).send({ status: false, message: "Product name is required" });
-        }
-        if (!description) {
-          return res.status(400).send({ status: false, message: "Description is required" });
-        }
-        if (!price) {
-          return res.status(400).send({ status: false, message: "Price is required" });
-        }
-        if (!quantity) {
-          return res.status(400).send({ status: false, message: "Please add quantity" });
-        }
+    console.log(req.body);
+    console.log(req.file);
 
-        // Create the product
-        const newProduct = await Product.create({
-          productName,
-          category,
-          description,
-          image,
-          quantity,
-          price,
-          purchaseDate,
-          warrantyCheck,
-          minimumStockLevel,
-          // adminId: req.adminId, // Assuming adminId is available in req
-        });
+    if (!productName) {
+      return res
+        .status(400)
+        .send({ status: false, message: "Product name is required" });
+    }
+    if (!category) {
+      return res
+        .status(400)
+        .send({ status: false, message: "Category is required" });
+    }
+    if (!price) {
+      return res
+        .status(400)
+        .send({ status: false, message: "Price is required" });
+    }
+    if (!quantity) {
+      return res
+        .status(400)
+        .send({ status: false, message: "Please add quantity" });
+    }
 
-        return res.status(201).send({
-          status: true,
-          message: "Product created successfully",
-          data: newProduct,
-        });
-      } catch (err) {
-        return res.status(500).send({ status: false, message: err.message });
-      }
+    if (!file)
+      return res
+        .status(400)
+        .send({ status: false, message: "Please insert an image" });
+
+    // Upload the file
+    const imgUrl = await uploadFile(file);
+
+    // Create the product
+    const newProduct = await Product.create({
+      productName,
+      category,
+      description,
+      image: imgUrl,
+      quantity,
+      price,
+      purchaseDate,
+      warrantyCheck,
+      minimumStockLevel,
+      adminId: req.adminId, // Assuming adminId is available in req
+    });
+    console.log(newProduct);
+    return res.status(201).send({
+      status: true,
+      message: "Product created successfully",
+      // data: newProduct,
     });
   } catch (err) {
-    return res.status(500).send({ status: false, message: err.message });
+    return res.status(500).send({ status: false, msg:"something went wrong",message: err.message });
   }
 };
-
 
 //================/GET METHOD/==================================
 const getProducts = async (req, res) => {
@@ -165,5 +156,5 @@ module.exports = {
   getProductById,
   updateProduct,
   deleteProduct,
-  upload,
+  // upload,
 };
