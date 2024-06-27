@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const route = require('./src/route/route')
+const multer = require('multer')
 const cors = require('cors');
 app.use(cors());
 app.use(cors({
@@ -10,8 +11,17 @@ app.use(cors({
   }));
 
 app.use(express.json());
-const mongoose = require('mongoose')
+// app.use(multer().any())
+app.use(express.urlencoded({ extended: true }))
 
+const upload = multer({
+    storage: multer.diskStorage({ destination: 'uploads/' }), // Adjust storage as needed
+    limits: { fileSize: 1000000 },
+    acl: 'public-read', // 1MB limit (optional)
+  });
+  app.use(upload.single('image'));
+
+const mongoose = require('mongoose')
 require('dotenv').config();
 
 const {PORT , MONGODB_CONNECT} = process.env;
