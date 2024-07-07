@@ -10,7 +10,7 @@ app.use(cors({
     headers: ['Content-Type', 'Authorization'],
   }));
 
-app.use(express.json());
+ app.use(express.json());
 // app.use(multer().any())
 app.use(express.urlencoded({ extended: true }))
 

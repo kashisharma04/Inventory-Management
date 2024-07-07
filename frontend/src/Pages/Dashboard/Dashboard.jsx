@@ -1,5 +1,10 @@
 import React from "react";
 import { CgProfile } from "react-icons/cg";
+import { HiUsers } from "react-icons/hi2";
+import { MdSpaceDashboard } from "react-icons/md";
+import { MdInventory } from "react-icons/md";
+import { BiSolidUserAccount } from "react-icons/bi";
+import { MdLogout } from "react-icons/md";
 import {
   Container,
   Row,
@@ -12,8 +17,8 @@ import {
 import { Link, useNavigate } from "react-router-dom"; // Import Link and useNavigate
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
-import "../assests/Dashboard.css"; // Import the new CSS file
-import BarChart from "../shared/barChart/BarChart";
+import "../../assests/Dashboard.css"; // Import the new CSS file
+import BarChart from "../../shared/barChart/BarChart";
 
 // const Dashboard = () => {
 const Dashboard = ({ onLogout }) => {
@@ -27,14 +32,29 @@ const Dashboard = ({ onLogout }) => {
     <div className="dashboard">
       {/* Sidebar */}
       <aside className="sidebar p-3">
-      <Navbar.Brand as={Link} to="/">
+        <Navbar.Brand as={Link} to="/">
           <Nav className="flex-column">
-            <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
-            <Nav.Link as={Link} to="/inventory">Inventory</Nav.Link>
-            <Nav.Link as={Link} to="/user-track">User-Track</Nav.Link>
-            <Nav.Link as={Link} to="/admin-info">Admin-info</Nav.Link>
+          <Nav.Link as={Link} to="/dashboard">
+          <MdSpaceDashboard /> Dashboard
+          </Nav.Link>
+          <Nav.Link as={Link} to="/inventory">
+          <MdInventory /> Inventory
+          </Nav.Link>
+          <Nav.Link as={Link} to="/user-track">
+          <BiSolidUserAccount /> Tracking
+          </Nav.Link>
+          <Nav.Link as={Link} to="/admin-info">
+          <HiUsers /> User Authentication
+          </Nav.Link>
           </Nav>
         </Navbar.Brand>
+        {/* <div className="mt-auto"> */}
+          {" "}
+          {/* This div will push the logout button to the bottom */}
+          {/* <Nav.Link onClick={handleLogout} className="text-danger">
+            Logout
+          </Nav.Link> */}
+        {/* </div> */}
       </aside>
 
       {/* Main Content */}
@@ -53,7 +73,7 @@ const Dashboard = ({ onLogout }) => {
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item href="#/action-1">View Profile</Dropdown.Item>
-                  <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                  <Dropdown.Item onClick={handleLogout}><MdLogout /> Logout</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Navbar.Brand>
@@ -97,7 +117,7 @@ const Dashboard = ({ onLogout }) => {
               <Card>
                 <Card.Body>
                   <Card.Title>Graph</Card.Title>
-                  <div className="graph-container">
+                  <div >
                     <BarChart />
                   </div>
                 </Card.Body>

@@ -46,11 +46,12 @@ const usertrackSchema = new mongoose.Schema(
       enum : ["inactive", "active", "pending", "returned"],
       default: "active",
     },
+    adminId: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' }
   },
   {
     timestamps: true,
   }
 );
 
-const User = mongoose.model("User", usertrackSchema);
-module.exports = User;
+const user = mongoose.model("User", usertrackSchema);
+module.exports = user;

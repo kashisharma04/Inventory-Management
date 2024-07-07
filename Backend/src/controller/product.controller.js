@@ -1,5 +1,5 @@
 const Product = require("../model/product.model");
-const uploadFile = require('../superbase/superbase');
+// const uploadFile = require('../superbase/superbase');
 
 
 // Create a new product
@@ -16,10 +16,10 @@ const createProduct = async (req, res) => {
       minimumStockLevel,
     } = req.body;
 
-    const file = req.file;
+    // const file = req.file;
 
     console.log(req.body);
-    console.log(req.file);
+    // console.log(req.file);
 
     if (!productName) {
       return res
@@ -42,32 +42,32 @@ const createProduct = async (req, res) => {
         .send({ status: false, message: "Please add quantity" });
     }
 
-    if (!file)
-      return res
-        .status(400)
-        .send({ status: false, message: "Please insert an image" });
+    // if (!file)
+    //   return res
+    //     .status(400)
+    //     .send({ status: false, message: "Please insert an image" });
 
     // Upload the file
-    const imgUrl = await uploadFile(file);
+    // const imgUrl = await uploadFile(file);
 
     // Create the product
     const newProduct = await Product.create({
       productName,
       category,
       description,
-      image: imgUrl,
+      // image: imgUrl,
       quantity,
       price,
       purchaseDate,
       warrantyCheck,
       minimumStockLevel,
-      adminId: req.adminId, // Assuming adminId is available in req
+      adminId: req.admin._id, // Assuming adminId is available in req
     });
-    console.log(newProduct);
+    // console.log(newProduct);
     return res.status(201).send({
       status: true,
       message: "Product created successfully",
-      // data: newProduct,
+      data: newProduct,
     });
   } catch (err) {
     return res.status(500).send({ status: false, msg:"something went wrong",message: err.message });
@@ -136,10 +136,11 @@ const deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;
     const deletedProduct = await Product.findByIdAndDelete(productId);
-    if (!deletedProduct)
+    if (!deletedProduct){
       return res
         .status(404)
         .send({ status: false, message: "Product not found in database" });
+    }
     return res.status(200).send({
       status: true,
       message: "Product deleted successfully",

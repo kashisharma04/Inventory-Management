@@ -1,13 +1,12 @@
 const userModel = require('../model/usertrack.model')
-const jwt = require('jsonwebtoken')
 const { isValidEmail, isValidMobile } = require('../validations/valid')
 
 const createUser = async function (req, res) {
   try {
-    let user = req.body
-    const { name, email, mobile, componentname, quantity, issuedAt, returnDate, status } = user;
 
-    //checking for required fields
+    const { name, email, mobile, componentname, quantity, issuedAt, returnDate, status } = req.body;
+
+
     if (!name) { return res.status(400).send({ status: false, message: "user name is required" }) }
 
     if (!email) { return res.status(400).send({ status: false, message: "email is required" }) }
@@ -15,6 +14,9 @@ const createUser = async function (req, res) {
 
     if (!mobile) { return res.status(400).send({ status: false, message: "mobile is required" }) }
     if (!isValidMobile(mobile)) { return res.status(400).send({ status: false, message: "Enter the valid mobile" }) }
+
+    if (!componentname) { return res.status(400).send({ status: false, message: "component name is required" }) }
+    if (!quantity) { return res.status(400).send({ status: false, message: "Please provide quantity" }) }
 
     if (!["inactive", "active", "pending", "returned"].includes(status)) {
       return res.status(400).send({ status: false, message: "Status must be one of 'inactive', 'active', 'pending', 'returned'" });
@@ -24,8 +26,19 @@ const createUser = async function (req, res) {
     const uniqueMail = await userModel.findOne({ email: email });
     if (uniqueMail) return res.status(400).send({ status: false, message: "this email already exist" });
 
-    let userCreated = await userModel.create(user)
-    return res.status(201).send({ status: true, msg: "User Created Successfully", data: userCreated })
+    const newUser = await userModel.create({
+      name,
+      // category,
+      email,
+      mobile,
+      componentname,
+      quantity,
+      issuedAt,
+      returnDate,
+      status,
+      adminId: req.admin._id, // Assuming adminId is available in req
+    });
+    return res.status(201).send({ status: true, msg: "User Created Successfully", data: newUser })
   }
 
   catch (err) { return res.status(500).send({ status: false, message: err.message }) }
@@ -85,6 +98,7 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const userId = req.params.id;
+    console.log("req", req);
     const deleteU = await userModel.findByIdAndDelete(userId);
     if (!deleteU)
       return res

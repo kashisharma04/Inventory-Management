@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,11 +7,13 @@ import {
 } from "react-router-dom";
 import Login from "./Admin/Login";
 import Register from "./Admin/Register";
-import Dashboard from "./Pages/Dashboard";
-import Inventory from "./Pages/Inventory";
-import AdminInfo from "./Pages/AdminInfo";
-
+import Dashboard from "./Pages/Dashboard/Dashboard";
+import Inventory from "./Pages/Inventory/Inventory";
+import AdminInfo from "./Pages/AdminAuth/AdminInfo";
+import UserTrack from "./Pages/Tracking/UserTrack";
+import MyInfo from "./Admin/MyInfo";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -29,9 +31,6 @@ const App = () => {
 
   return (
     <div className="App">
-      {/* <Inventory /> */}
-      {/* <Dashboard /> */}
-      {/* < AdminInfo /> */}
       <Router>
         <Routes>
           <Route path="/register" element={<Register />} />
@@ -62,6 +61,14 @@ const App = () => {
           <Route
             path="/admin-info"
             element={isAuthenticated ? <AdminInfo /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/user-track"
+            element={isAuthenticated ? <UserTrack /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/profile"
+            element={isAuthenticated ? <MyInfo /> : <Navigate to="/login" />}
           />
           <Route
             path="/"

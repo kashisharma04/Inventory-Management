@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const { isValidEmail , isValidRequestBody, isValidMobile } = require('../validations/valid');
 
 require('dotenv').config();
-const { JWT_SECRET , JWT_Expiry} = process.env
+const {  JWT_SECRET , JWT_EXPIRY} = process.env
 
 const createAdmin = async function (req, res) {
     try {
@@ -69,78 +69,110 @@ const getAdminById = async (req, res) => {
 //     return jwt.sign({ admin_id: admin._id }, JWT_SECRET, JWT_Expiry);
 // };
 
+// const login = async (req, res) => {
+//     try {
+//         if (!isValidRequestBody(req.body)) {
+//             return res.status(400).json({
+//                 status: false,
+//                 message: 'Invalid Request Parameters, Please provide login details'
+//             });
+//         }
+
+//         const { email, password } = req.body;
+
+//         if (!isValidEmail(email)) {
+//             return res.status(400).json({
+//                 status: false,
+//                 message: "Invalid Email"
+//             });
+//         }
+
+//         if (!email || !password) {
+//             return res.status(400).json({
+//                 status: false,
+//                 message: "Please enter both email and password"
+//             });
+//         }
+
+//         const user = await adminDetails.findOne({ email, password });
+
+//         if (!user) {
+//             return res.status(401).json({
+//                 status: false,
+//                 message: 'You are not registered'
+//             });
+//         }
+
+//         const token = jwt.sign({ user_id: user._id }, JWT_SECRET);
+
+//         res.status(200).json({
+//             status: true,
+//             data: {
+//                 token: `Bearer ${token}` // Include Bearer prefix
+//             }
+//         });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({
+//             status: false,
+//             message: error.message
+//         });
+//     }
+// };
+
 const login = async (req, res) => {
     try {
         if (!isValidRequestBody(req.body)) {
-            res.status(400).json({
+            return res.status(400).json({
                 status: false,
                 message: 'Invalid Request Parameters, Please provide login details'
             });
-            
         }
-        const {
-            email,
-            password
-        } = req.body
 
-        // if (!email){
-        //     res.status(400).json({
-        //         status: false,
-        //         message: "Email is required"
-        //     })
-        // }
+        const { email, password } = req.body;
 
-        if (!isValidEmail(email)){
-            res.status(400).json({
+        if (!isValidEmail(email)) {
+            return res.status(400).json({
                 status: false,
                 message: "Invalid Email"
-            })
+            });
         }
 
-        if (!email || !password) return res.status(400).json({
-            message: "Please enter both email and password"
-        })
-
-        const user = await adminDetails.findOne({
-            email: email,
-            password : password
-        })
-
-        if (!user) return res.status(401).json({
-            status: false,
-            message: 'You are not registered'
-        })
-        // console.log(user.password)
-        
-        if (password) {
-            const token = jwt.sign({
-                user_id: user._id,
-            }, JWT_SECRET, {expiresIn : JWT_Expiry})
-            // const token = generateToken(admin)
-
-            res.header('x-header-key', token)
-
-            res.status(200).json({
-                status: true,
-                data: {
-                    token
-                }
-            })
-        } else {
-            return res.status(401).send({
+        if (!email || !password) {
+            return res.status(400).json({
                 status: false,
-                message: "not a authenticate user"
-            })
+                message: "Please enter both email and password"
+            });
         }
 
+        const user = await adminDetails.findOne({ email, password });
+
+        if (!user) {
+            return res.status(401).json({
+                status: false,
+                message: 'You are not registered'
+            });
+        }
+
+        const token = jwt.sign({ user_id: user._id }, JWT_SECRET);
+        console.log("Generated Token:", token); // Debug log
+
+        res.status(200).json({
+            status: true,
+            data: {
+                token: `Bearer ${token}` // Include Bearer prefix
+            }
+        });
     } catch (error) {
-        console.log(error)
+        console.error("Login Error:", error);
         res.status(500).json({
             status: false,
             message: error.message
-        })
+        });
     }
-}
+};
+
+
 const updateAdmin = async (req, res) => {
     try {
       const adminId = req.params.id;
