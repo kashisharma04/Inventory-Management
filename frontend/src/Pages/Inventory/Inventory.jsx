@@ -196,7 +196,7 @@ const Inventory = () => {
         </header>
         <Modal show={showModal} onHide={() => setShowModal(false)}>
           <Modal.Header closeButton>
-            <Modal.Title>Add Product</Modal.Title>
+            <Modal.Title>Add Inventory Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
@@ -207,6 +207,7 @@ const Inventory = () => {
                   placeholder="Enter product name"
                   value={productName}
                   onChange={(e) => setProductName(e.target.value)}
+                  required
                 />
               </Form.Group>
               <Form.Group controlId="formCategory">
@@ -216,6 +217,7 @@ const Inventory = () => {
                   placeholder="Enter category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
+                  required
                 />
               </Form.Group>
               <Form.Group controlId="formDescription">
@@ -235,6 +237,7 @@ const Inventory = () => {
                   placeholder="Enter quantity"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
+                  required
                 />
               </Form.Group>
               <Form.Group controlId="formPrice">
@@ -290,28 +293,32 @@ const Inventory = () => {
             <Col xs={3}>
               <Card>
                 <Card.Body>
-                  <Card.Title>Categories</Card.Title>
+                  <Card.Title style={{ color: 'purple' }}>Categories</Card.Title>
+                  <Card.Text style={{ color: ' #f77f5b ' }}>Total (20 items)</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
             <Col xs={3}>
               <Card>
                 <Card.Body>
-                  <Card.Title>Total Products</Card.Title>
+                  <Card.Title style={{ color: 'purple' }}>Total Products</Card.Title>
+                  <Card.Text style={{ color: ' #f77f5b ' }}>Total (30 items)</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
             <Col xs={3}>
               <Card>
                 <Card.Body>
-                  <Card.Title>Low Stock</Card.Title>
+                  <Card.Title style={{ color: 'purple' }}>Low Stock</Card.Title>
+                  <Card.Text style={{ color: ' #f77f5b ' }}>Total (2 items)</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
             <Col xs={3}>
               <Card>
                 <Card.Body>
-                  <Card.Title>Component 4</Card.Title>
+                  <Card.Title style={{ color: 'purple' }}>Component 4</Card.Title>
+                  <Card.Text style={{ color: ' #f77f5b ' }}>Total (x items)</Card.Text>
                 </Card.Body>
               </Card>
             </Col>

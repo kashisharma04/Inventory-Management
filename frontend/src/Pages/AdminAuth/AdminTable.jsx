@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FaUserEdit } from "react-icons/fa";
 import { PiList } from "react-icons/pi";
+import { TiArrowUnsorted } from "react-icons/ti";
 import '../../assests/Dashboard.css'
 import axios from "axios";
 
@@ -102,11 +103,11 @@ const AdminTable = ({ adminData }) => {
         <thead>
           <tr>
             <th><PiList size={20}/></th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Mobile</th>
-            <th>Password</th>
-            <th>Designation</th>
+            <th>Name <TiArrowUnsorted /></th>
+            <th>Email <TiArrowUnsorted /></th>
+            <th>Mobile <TiArrowUnsorted /></th>
+            <th>Password <TiArrowUnsorted /></th>
+            <th>Designation <TiArrowUnsorted /></th>
             <th>Actions</th>
           </tr>
         </thead>

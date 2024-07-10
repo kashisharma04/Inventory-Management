@@ -85,28 +85,31 @@ const Dashboard = ({ onLogout }) => {
             <Col xs={3}>
               <Card>
                 <Card.Body>
-                  <Card.Title>Most issued item</Card.Title>
+                  <Card.Title style={{ color: 'purple' }}>Most issued item</Card.Title>
+                  {/* <Card.Text>Total (4 items)</Card.Text> */}
                 </Card.Body>
               </Card>
             </Col>
             <Col xs={3}>
               <Card>
                 <Card.Body>
-                  <Card.Title>Top users</Card.Title>
+                  <Card.Title style={{ color: 'purple' }}>Top users</Card.Title>
+                  {/* <Card.Text>Total (4)</Card.Text> */}
                 </Card.Body>
               </Card>
             </Col>
             <Col xs={3}>
               <Card>
                 <Card.Body>
-                  <Card.Title>Component 3</Card.Title>
+                  <Card.Title style={{ color: 'purple' }}>Total Products</Card.Title>
+                  {/* <Card.Text>Total (40 items)</Card.Text> */}
                 </Card.Body>
               </Card>
             </Col>
             <Col xs={3}>
               <Card>
                 <Card.Body>
-                  <Card.Title>Component 4</Card.Title>
+                  <Card.Title style={{ color: 'purple' }}>Component 4</Card.Title>
                 </Card.Body>
               </Card>
             </Col>

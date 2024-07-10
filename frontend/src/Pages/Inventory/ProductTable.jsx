@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PiList } from "react-icons/pi";
 import { LuClipboardEdit } from "react-icons/lu";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { HiMiniArrowsUpDown } from "react-icons/hi2";
+// import { HiMiniArrowsUpDown } from "react-icons/hi2";
+import { TiArrowUnsorted } from "react-icons/ti";
 import { FaEye } from "react-icons/fa";
 import '../../assests/Dashboard.css'
 
@@ -112,14 +113,14 @@ const ProductTable = ({ products, updateProductsList }) => {
         <thead>
           <tr>
             <th><PiList size={20}/></th>
-            <th>Name <HiMiniArrowsUpDown /></th>
-            <th>Category <HiMiniArrowsUpDown /></th>
-            <th>Description <HiMiniArrowsUpDown /></th>
-            <th>Price <HiMiniArrowsUpDown /></th>
-            <th>Purchase Date <HiMiniArrowsUpDown /></th>
-            <th>Stock <HiMiniArrowsUpDown /></th>
+            <th>Name <TiArrowUnsorted /></th>
+            <th>Category <TiArrowUnsorted /></th>
+            <th>Description <TiArrowUnsorted /></th>
+            <th>Purchase Date <TiArrowUnsorted /></th>
+            <th>Stock <TiArrowUnsorted /></th>
+            <th>Price <TiArrowUnsorted /></th>
             {/* <th>Minimum Stock</th> */}
-            <th>Status <HiMiniArrowsUpDown /></th>
+            <th>Status <TiArrowUnsorted /></th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -130,9 +131,9 @@ const ProductTable = ({ products, updateProductsList }) => {
               <td>{product.productName}</td>
               <td>{product.category}</td>
               <td>{product.description}</td>
-              <td>{product.price}</td>
               <td>{new Date(product.purchaseDate).toLocaleDateString()}</td>
               <td>{product.quantity}</td>
+              <td>{product.price}</td>
               {/* <td>{product.minimumStockLevel}</td> */}
               <td style={{ color: product.quantity < product.minimumStockLevel ? 'red' : 'green' , fontWeight:'bold' }}>
                 {getStatus(product)}

@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { PiList } from "react-icons/pi";
 import "../../assests/Dashboard.css";
-import { HiMiniArrowsUpDown } from "react-icons/hi2";
+// import { HiMiniArrowsUpDown } from "react-icons/hi2";
+import { TiArrowUnsorted } from "react-icons/ti";
 
 import 'react-notifications/lib/notifications.css';
 import { store } from 'react-notifications-component';
@@ -120,14 +121,14 @@ const UserTable = ({ userData, fetchUsers }) => {
             <th>
               <PiList size={20} />
             </th>
-            <th>Name <HiMiniArrowsUpDown /></th>
-            <th>Email <HiMiniArrowsUpDown /></th>
-            <th>Mobile <HiMiniArrowsUpDown /></th>
-            <th>Component Name <HiMiniArrowsUpDown /></th>
-            <th>Quantity <HiMiniArrowsUpDown /></th>
-            <th>Issued At <HiMiniArrowsUpDown /></th>
-            {/* <th>Return Date <HiMiniArrowsUpDown /></th> */}
-            <th>Status <HiMiniArrowsUpDown /></th>
+            <th>Name <TiArrowUnsorted /></th>
+            <th>Email <TiArrowUnsorted /></th>
+            <th>Mobile <TiArrowUnsorted /></th>
+            <th>Component <TiArrowUnsorted /></th>
+            <th>Quantity <TiArrowUnsorted /></th>
+            <th>Issued At <TiArrowUnsorted /></th>
+            {/* <th>Return Date <TiArrowUnsorted /></th> */}
+            <th>Status <TiArrowUnsorted /></th>
             <th>Actions </th>
           </tr>
         </thead>

@@ -181,13 +181,13 @@
   background-color: #f0f0f0;
   color: #333;
   font-weight: bold;
-  text-align: center;
+  /* text-align: center; */
 }
 
 /* Styling table rows */
-.admin-table tbody td {
+/* .admin-table tbody td {
   text-align: center;
-}
+} */
 
 /* Styling buttons */
 /* .button-add-product,

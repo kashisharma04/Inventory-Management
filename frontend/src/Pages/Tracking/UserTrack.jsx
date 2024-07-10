@@ -281,28 +281,32 @@ const UserTrack = () => {
             <Col xs={3}>
               <Card>
                 <Card.Body>
-                  <Card.Title>Most issued item</Card.Title>
+                  <Card.Title style={{ color: 'purple' }}>Most issued item</Card.Title>
+                  <Card.Text style={{ color: '#f77f5b' }}>Total (20 items)</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
             <Col xs={3}>
               <Card>
                 <Card.Body>
-                  <Card.Title>Top users</Card.Title>
+                  <Card.Title style={{ color: 'purple' }}>Top users</Card.Title>
+                  <Card.Text style={{ color: '#f77f5b' }}>Total (20 items)</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
             <Col xs={3}>
               <Card>
                 <Card.Body>
-                  <Card.Title>Component 3</Card.Title>
+                  <Card.Title style={{ color: 'purple' }}>Component 3</Card.Title>
+                  <Card.Text style={{ color: '#f77f5b' }}>Total (20 items)</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
             <Col xs={3}>
               <Card>
                 <Card.Body>
-                  <Card.Title>Component 4</Card.Title>
+                  <Card.Title style={{ color: 'purple' }}>Component 4</Card.Title>
+                  <Card.Text style={{ color: '#f77f5b' }}>Total (20 items)</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
